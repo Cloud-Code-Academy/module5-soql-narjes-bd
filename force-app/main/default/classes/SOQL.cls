@@ -395,15 +395,18 @@ public with sharing class SOQL {
 		for (Contact c : contacts) {
 			accountToContactMap.put(c.AccountId, c);
 		}
+		List<Opportunity> oppsToUpdate = new List<Opportunity>();
 		// Loop through each Opportunity
 		for (Opportunity o : opps) {
 			Contact primaryContact = accountToContactMap.get(o.AccountId);
 			if (primaryContact != null) {
 				o.Primary_Contact__c = primaryContact.Id;
-		
-		// Update the Opportunities
-			update opps;
+				oppsToUpdate.add(o);
 			}
 		}
+		
+		// Update the Opportunities
+			update oppsToUpdate;
+			
 	}
 }
